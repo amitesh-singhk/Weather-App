@@ -12,25 +12,36 @@ const weatherIcon = document.getElementById("weatherIcon");
 const apiKey = "f16586c439d2b4f7243134b60942c80a";
 
 async function getWeather(city) {
+
     try {
+
+        cityName.innerText = "Loading...";
+        temperature.innerText = "--°C";
+        description.innerText = "Please wait...";
+        humidity.innerText = "Humidity : --";
+        wind.innerText = "Wind : --";
+        weatherIcon.src = "";
+
         const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
 
         const response = await fetch(url);
+
         const data = await response.json();
 
-        if (data.cod !== 200) {
+        if (data.cod != 200) {
 
-    alert("City not found!");
+            alert("City not found!");
 
-    cityName.innerText = "City";
-    temperature.innerText = "--°C";
-    description.innerText = "Weather Description";
-    humidity.innerText = "Humidity : --";
-    wind.innerText = "Wind : --";
-    weatherIcon.src = "";
+            cityName.innerText = "City";
+            temperature.innerText = "--°C";
+            description.innerText = "Weather Description";
+            humidity.innerText = "Humidity : --";
+            wind.innerText = "Wind : --";
+            weatherIcon.src = "";
 
-    return;
-}
+            return;
+
+        }
 
         cityName.innerText = data.name;
         temperature.innerText = `${data.main.temp}°C`;
@@ -41,19 +52,43 @@ async function getWeather(city) {
         weatherIcon.src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
         weatherIcon.alt = data.weather[0].description;
 
-    } catch (error) {
-        console.error(error);
-        alert("Something went wrong!");
     }
+
+    catch (error) {
+
+        console.error(error);
+
+        alert("Something went wrong!");
+
+    }
+
 }
 
 searchBtn.addEventListener("click", function () {
+
     const city = cityInput.value.trim();
 
     if (city === "") {
+
         alert("Please enter a city name.");
+
         return;
+
     }
 
     getWeather(city);
+
+    cityInput.value = "";
+
+});
+
+// Enter key support
+cityInput.addEventListener("keypress", function (event) {
+
+    if (event.key === "Enter") {
+
+        searchBtn.click();
+
+    }
+
 });
