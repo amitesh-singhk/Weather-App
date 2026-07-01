@@ -9,7 +9,7 @@ const wind = document.getElementById("wind");
 const weatherIcon = document.getElementById("weatherIcon");
 
 // Paste your API key here
-const apiKey = "YOUR_API_KEY";
+const apiKey = "f16586c439d2b4f7243134b60942c80a";
 
 async function getWeather(city) {
     try {
